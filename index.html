@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             padding: 40px;
         }
 
@@ -153,6 +154,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -231,9 +233,185 @@
                 padding: 15px;
             }
         }
+
+        /* Fireworks Animation */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .firework-rocket {
+            position: absolute;
+            bottom: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            box-shadow:
+                0 0 20px currentColor,
+                0 0 40px currentColor,
+                0 0 60px currentColor;
+            animation: rocket-fly 1.2s ease-out forwards;
+        }
+
+        @keyframes rocket-fly {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+                filter: brightness(2);
+            }
+
+            100% {
+                transform: translateY(calc(var(--distance) * -1));
+                opacity: 0.8;
+                filter: brightness(1.5);
+            }
+        }
+
+        .rocket-trail {
+            position: absolute;
+            bottom: 0;
+            width: 3px;
+            height: 80px;
+            background: linear-gradient(to top,
+                    rgba(255, 255, 255, 0),
+                    rgba(255, 200, 100, 0.8),
+                    rgba(255, 150, 50, 0.6));
+            box-shadow: 0 0 15px rgba(255, 200, 100, 0.8);
+            animation: trail-rise 1.2s ease-out forwards;
+            filter: blur(2px);
+        }
+
+        @keyframes trail-rise {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(calc(var(--distance) * -1));
+                opacity: 0;
+            }
+        }
+
+        .spark {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            box-shadow:
+                0 0 10px currentColor,
+                0 0 20px currentColor,
+                0 0 30px currentColor,
+                0 0 40px currentColor;
+            animation: spark 1.5s ease-out forwards;
+            filter: brightness(1.5);
+        }
+
+        @keyframes spark {
+            0% {
+                transform: translate(0, 0) scale(1.5);
+                opacity: 1;
+                filter: brightness(2);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+                filter: brightness(1);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            animation: confetti 3s ease-out forwards;
+            box-shadow: 0 0 5px currentColor;
+        }
+
+        @keyframes confetti {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(100vh) translateX(var(--drift)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            box-shadow:
+                0 0 10px white,
+                0 0 20px white,
+                0 0 30px white;
+            animation: sparkle 0.8s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+                filter: brightness(3);
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+                filter: brightness(2);
+            }
+
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        .flash {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(255, 255, 255, 0.8) 0%,
+                    rgba(255, 255, 255, 0.4) 30%,
+                    transparent 70%);
+            animation: flash 0.3s ease-out forwards;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes flash {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
+
 <body>
+    <div class="fireworks" id="fireworks"></div>
     <div class="container">
         <h1>🎨 Figma UI/UX Quiz</h1>
         <p class="subtitle">Kiểm tra kiến thức của bạn về Figma - 11 câu hỏi</p>
@@ -241,7 +419,8 @@
         <form id="quizForm">
             <!-- Question 1 -->
             <div class="question" data-question="1">
-                <div class="question-text">1. An example of ____ is changing the color of a button that changes all instances of it within the design.</div>
+                <div class="question-text">1. An example of ____ is changing the color of a button that changes all
+                    instances of it within the design.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q1" value="A" id="q1a">
@@ -289,7 +468,8 @@
 
             <!-- Question 3 -->
             <div class="question" data-question="3">
-                <div class="question-text">3. _____ refers to designing accessible websites for differently abled users.</div>
+                <div class="question-text">3. _____ refers to designing accessible websites for differently abled users.
+                </div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q3" value="A" id="q3a">
@@ -313,7 +493,8 @@
 
             <!-- Question 4 -->
             <div class="question" data-question="4">
-                <div class="question-text">4. _____ helps populate the repetitive component instances with unique dynamic content.</div>
+                <div class="question-text">4. _____ helps populate the repetitive component instances with unique
+                    dynamic content.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q4" value="A" id="q4a">
@@ -337,7 +518,8 @@
 
             <!-- Question 5 -->
             <div class="question" data-question="5">
-                <div class="question-text">5. Which one of the following actions does the Fetch & Sync button perform?</div>
+                <div class="question-text">5. Which one of the following actions does the Fetch & Sync button perform?
+                </div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q5" value="A" id="q5a">
@@ -409,7 +591,8 @@
 
             <!-- Question 8 -->
             <div class="question" data-question="8">
-                <div class="question-text">8. The ___ feature controls the amount of space between the boundary and objects in the auto layout frame.</div>
+                <div class="question-text">8. The ___ feature controls the amount of space between the boundary and
+                    objects in the auto layout frame.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q8" value="A" id="q8a">
@@ -544,9 +727,178 @@
             q11: 'Layout Feature (Auto Layout) tự động thay đổi kích thước frame.'
         };
 
-        document.getElementById('quizForm').addEventListener('submit', function(e) {
+        // Fireworks functions - Enhanced version
+        function createFirework(startX, targetY) {
+            // More vibrant and varied colors
+            const colors = [
+                '#FF0040', // Bright Red
+                '#FF6B35', // Orange Red
+                '#FFD700', // Gold
+                '#00FF87', // Spring Green
+                '#00E5FF', // Cyan
+                '#0080FF', // Deep Sky Blue
+                '#8B00FF', // Electric Violet
+                '#FF00FF', // Magenta
+                '#FF1493', // Deep Pink
+                '#FFFFFF', // White
+                '#FFA500', // Orange
+                '#32CD32', // Lime Green
+            ];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            // Create the rocket
+            const rocket = document.createElement('div');
+            rocket.className = 'firework-rocket';
+            rocket.style.left = startX + 'px';
+            rocket.style.backgroundColor = color;
+            rocket.style.color = color;
+            rocket.style.setProperty('--distance', (window.innerHeight - targetY) + 'px');
+
+            // Create the glowing trail
+            const trail = document.createElement('div');
+            trail.className = 'rocket-trail';
+            trail.style.left = startX + 'px';
+            trail.style.setProperty('--distance', (window.innerHeight - targetY) + 'px');
+
+            document.getElementById('fireworks').appendChild(rocket);
+            document.getElementById('fireworks').appendChild(trail);
+
+            // Explode at the target position
+            setTimeout(() => {
+                createExplosion(startX, targetY, color);
+                rocket.remove();
+                trail.remove();
+            }, 1200);
+        }
+
+        function createExplosion(x, y, baseColor) {
+            // Create flash effect
+            const flash = document.createElement('div');
+            flash.className = 'flash';
+            flash.style.left = x + 'px';
+            flash.style.top = y + 'px';
+            flash.style.background = `radial-gradient(circle, ${baseColor}dd 0%, ${baseColor}88 30%, transparent 70%)`;
+            document.getElementById('fireworks').appendChild(flash);
+            setTimeout(() => flash.remove(), 300);
+
+            // Color variations for sparks
+            const colors = [
+                '#FF0040', '#FF6B35', '#FFD700', '#00FF87', '#00E5FF',
+                '#0080FF', '#8B00FF', '#FF00FF', '#FF1493', '#FFFFFF'
+            ];
+
+            // Create multiple layers of sparks for depth
+            const layers = [
+                { count: 50, velocity: 100, delay: 0 },
+                { count: 40, velocity: 150, delay: 100 },
+                { count: 30, velocity: 80, delay: 50 }
+            ];
+
+            layers.forEach(layer => {
+                setTimeout(() => {
+                    for (let i = 0; i < layer.count; i++) {
+                        const spark = document.createElement('div');
+                        spark.className = 'spark';
+                        spark.style.left = x + 'px';
+                        spark.style.top = y + 'px';
+
+                        // Mix of base color and random colors
+                        const color = i % 2 === 0 ? baseColor : colors[Math.floor(Math.random() * colors.length)];
+                        spark.style.backgroundColor = color;
+                        spark.style.color = color;
+
+                        const angle = (Math.PI * 2 * i) / layer.count;
+                        const velocity = layer.velocity + Math.random() * 50;
+                        const tx = Math.cos(angle) * velocity;
+                        const ty = Math.sin(angle) * velocity;
+
+                        spark.style.setProperty('--x', tx + 'px');
+                        spark.style.setProperty('--y', ty + 'px');
+
+                        document.getElementById('fireworks').appendChild(spark);
+
+                        setTimeout(() => spark.remove(), 1500);
+                    }
+                }, layer.delay);
+            });
+
+            // Enhanced sparkle effect at explosion center
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
+                    sparkle.style.top = (y + (Math.random() - 0.5) * 60) + 'px';
+
+                    document.getElementById('fireworks').appendChild(sparkle);
+
+                    setTimeout(() => sparkle.remove(), 800);
+                }, i * 40);
+            }
+        }
+
+        function createConfetti() {
+            const colors = [
+                '#FF0040', '#FF6B35', '#FFD700', '#00FF87', '#00E5FF',
+                '#0080FF', '#8B00FF', '#FF00FF', '#FF1493', '#FFA500',
+                '#32CD32', '#FFFFFF'
+            ];
+            const shapes = ['circle', 'square', 'triangle'];
+
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * window.innerWidth + 'px';
+                    confetti.style.top = '-30px';
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.backgroundColor = color;
+                    confetti.style.color = color;
+                    confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                    confetti.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+                    confetti.style.setProperty('--drift', ((Math.random() - 0.5) * 200) + 'px');
+
+                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                    if (shape === 'triangle') {
+                        confetti.style.width = '0';
+                        confetti.style.height = '0';
+                        confetti.style.borderLeft = '6px solid transparent';
+                        confetti.style.borderRight = '6px solid transparent';
+                        confetti.style.borderBottom = '12px solid ' + color;
+                        confetti.style.backgroundColor = 'transparent';
+                    } else if (shape === 'circle') {
+                        confetti.style.borderRadius = '50%';
+                    }
+
+                    document.getElementById('fireworks').appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 15);
+            }
+        }
+
+        function launchFireworks() {
+            const fireworksCount = 25;
+
+            // Launch fireworks from different positions at bottom
+            for (let i = 0; i < fireworksCount; i++) {
+                setTimeout(() => {
+                    const startX = 80 + Math.random() * (window.innerWidth - 160);
+                    const targetY = 80 + Math.random() * (window.innerHeight * 0.35); // Explode in upper portion
+                    createFirework(startX, targetY);
+                }, i * 350);
+            }
+
+            // Multiple waves of confetti
+            setTimeout(() => createConfetti(), 600);
+            setTimeout(() => createConfetti(), 2500);
+            setTimeout(() => createConfetti(), 4500);
+            setTimeout(() => createConfetti(), 6500);
+        }
+
+        document.getElementById('quizForm').addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             let score = 0;
             let totalQuestions = 11;
 
@@ -573,7 +925,7 @@
                         userAnswer.parentElement.classList.add('incorrect');
                         feedback.className = 'feedback incorrect';
                         feedback.textContent = '✗ Sai rồi. ' + explanations[questionName];
-                        
+
                         // Show correct answer
                         options.forEach(option => {
                             const input = option.querySelector('input');
@@ -585,7 +937,7 @@
                 } else {
                     feedback.className = 'feedback incorrect';
                     feedback.textContent = '⚠ Bạn chưa chọn đáp án. Đáp án đúng: ' + correctAnswer + '. ' + explanations[questionName];
-                    
+
                     // Show correct answer
                     options.forEach(option => {
                         const input = option.querySelector('input');
@@ -602,10 +954,12 @@
             // Display result
             document.getElementById('score').textContent = score;
             document.getElementById('percentage').textContent = percentage;
-            
+
             let message = '';
             if (percentage === 100) {
                 message = '🌟 Xuất sắc! Bạn đã trả lời đúng tất cả!';
+                // Launch fireworks for perfect score!
+                setTimeout(() => launchFireworks(), 500);
             } else if (percentage >= 80) {
                 message = '👏 Rất tốt! Bạn hiểu rất rõ về Figma!';
             } else if (percentage >= 60) {
@@ -615,7 +969,7 @@
             } else {
                 message = '📚 Hãy dành thời gian học lại về Figma nhé!';
             }
-            
+
             document.getElementById('message').textContent = message;
             document.getElementById('result').style.display = 'block';
 
@@ -628,4 +982,5 @@
         });
     </script>
 </body>
+
 </html>
