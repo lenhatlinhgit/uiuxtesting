@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +23,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             padding: 40px;
         }
 
@@ -153,7 +152,6 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -234,7 +232,6 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <h1>🎨 Figma UI/UX Quiz</h1>
@@ -243,8 +240,7 @@
         <form id="quizForm">
             <!-- Question 1 -->
             <div class="question" data-question="1">
-                <div class="question-text">1. An example of ____ is changing the color of a button that changes all
-                    instances of it within the design.</div>
+                <div class="question-text">1. An example of ____ is changing the color of a button that changes all instances of it within the design.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q1" value="A" id="q1a">
@@ -292,8 +288,7 @@
 
             <!-- Question 3 -->
             <div class="question" data-question="3">
-                <div class="question-text">3. _____ refers to designing accessible websites for differently abled users.
-                </div>
+                <div class="question-text">3. _____ refers to designing accessible websites for differently abled users.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q3" value="A" id="q3a">
@@ -317,8 +312,7 @@
 
             <!-- Question 4 -->
             <div class="question" data-question="4">
-                <div class="question-text">4. _____ helps populate the repetitive component instances with unique
-                    dynamic content.</div>
+                <div class="question-text">4. _____ helps populate the repetitive component instances with unique dynamic content.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q4" value="A" id="q4a">
@@ -342,8 +336,7 @@
 
             <!-- Question 5 -->
             <div class="question" data-question="5">
-                <div class="question-text">5. Which one of the following actions does the Fetch & Sync button perform?
-                </div>
+                <div class="question-text">5. Which one of the following actions does the Fetch & Sync button perform?</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q5" value="A" id="q5a">
@@ -415,8 +408,7 @@
 
             <!-- Question 8 -->
             <div class="question" data-question="8">
-                <div class="question-text">8. The ___ feature controls the amount of space between the boundary and
-                    objects in the auto layout frame.</div>
+                <div class="question-text">8. The ___ feature controls the amount of space between the boundary and objects in the auto layout frame.</div>
                 <div class="options">
                     <div class="option">
                         <input type="radio" name="q8" value="A" id="q8a">
@@ -532,7 +524,7 @@
             q6: 'B',
             q7: 'A',
             q8: 'D',
-            q9: 'C',
+            q9: 'B',
             q10: 'C',
             q11: 'C'
         };
@@ -546,14 +538,14 @@
             q6: 'Trình tự đúng: Tạo project trong Maze → Share prototype → Nhập tên và chọn Test → Copy link.',
             q7: 'Content Audit process bao gồm: Content Collection, Full Content Inventory, và Partial Content Inventory. Không có Content Sample.',
             q8: 'Padding điều khiển khoảng cách giữa viền frame và objects bên trong Auto Layout.',
-            q9: 'Figma có 3 cấp: Team → Project → File.',
-            q10: 'Prototype đóng vai trò quan trọng trong giai đoạn Testing.',
+            q9: 'Figma có 4 cấp: Team → Project → File → Page.',
+            q10: 'Testing phase đóng vai trò quan trọng trong quá trình phát triển sản phẩm.',
             q11: 'Layout Feature (Auto Layout) tự động thay đổi kích thước frame.'
         };
 
-        document.getElementById('quizForm').addEventListener('submit', function (e) {
+        document.getElementById('quizForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
+            
             let score = 0;
             let totalQuestions = 11;
 
@@ -580,7 +572,7 @@
                         userAnswer.parentElement.classList.add('incorrect');
                         feedback.className = 'feedback incorrect';
                         feedback.textContent = '✗ Sai rồi. ' + explanations[questionName];
-
+                        
                         // Show correct answer
                         options.forEach(option => {
                             const input = option.querySelector('input');
@@ -592,7 +584,7 @@
                 } else {
                     feedback.className = 'feedback incorrect';
                     feedback.textContent = '⚠ Bạn chưa chọn đáp án. Đáp án đúng: ' + correctAnswer + '. ' + explanations[questionName];
-
+                    
                     // Show correct answer
                     options.forEach(option => {
                         const input = option.querySelector('input');
@@ -609,7 +601,7 @@
             // Display result
             document.getElementById('score').textContent = score;
             document.getElementById('percentage').textContent = percentage;
-
+            
             let message = '';
             if (percentage === 100) {
                 message = '🌟 Xuất sắc! Bạn đã trả lời đúng tất cả!';
@@ -622,7 +614,7 @@
             } else {
                 message = '📚 Hãy dành thời gian học lại về Figma nhé!';
             }
-
+            
             document.getElementById('message').textContent = message;
             document.getElementById('result').style.display = 'block';
 
@@ -635,5 +627,4 @@
         });
     </script>
 </body>
-
 </html>
