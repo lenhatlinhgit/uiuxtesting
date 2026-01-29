@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figma UI/UX Quiz - Kiểm tra kiến thức</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            color: #333;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option.correct-answer {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            text-align: center;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .percentage {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            font-size: 1.2em;
+            margin-top: 15px;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background: #f0f4ff;
+            transform: scale(1.05);
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .question {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎨 Figma UI/UX Quiz</h1>
+        <p class="subtitle">Kiểm tra kiến thức của bạn về Figma - 11 câu hỏi</p>
+
+        <form id="quizForm">
+            <!-- Question 1 -->
+            <div class="question" data-question="1">
+                <div class="question-text">1. An example of ____ is changing the color of a button that changes all
+                    instances of it within the design.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q1" value="A" id="q1a">
+                        <label for="q1a">A. Component</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="B" id="q1b">
+                        <label for="q1b">B. Instance</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="C" id="q1c">
+                        <label for="q1c">C. Variant</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" value="D" id="q1d">
+                        <label for="q1d">D. Style</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question" data-question="2">
+                <div class="question-text">2. The tabs in the Properties panel are ______.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q2" value="A" id="q2a">
+                        <label for="q2a">A. Prototype, Play, and Code</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="B" id="q2b">
+                        <label for="q2b">B. Design, Prototype, and Play</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="C" id="q2c">
+                        <label for="q2c">C. Design, Prototype, and Inspect</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" value="D" id="q2d">
+                        <label for="q2d">D. Prototype, Inspect, and Code</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question" data-question="3">
+                <div class="question-text">3. _____ refers to designing accessible websites for differently abled users.
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q3" value="A" id="q3a">
+                        <label for="q3a">A. Exclusivity</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="B" id="q3b">
+                        <label for="q3b">B. Insularity</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="C" id="q3c">
+                        <label for="q3c">C. Inclusivity</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" value="D" id="q3d">
+                        <label for="q3d">D. Singularity</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question" data-question="4">
+                <div class="question-text">4. _____ helps populate the repetitive component instances with unique
+                    dynamic content.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q4" value="A" id="q4a">
+                        <label for="q4a">A. Auto Layout Frame</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="B" id="q4b">
+                        <label for="q4b">B. Theme Builder</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="C" id="q4c">
+                        <label for="q4c">C. Maze</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" value="D" id="q4d">
+                        <label for="q4d">D. Google Sheets Sync plugin</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question" data-question="5">
+                <div class="question-text">5. Which one of the following actions does the Fetch & Sync button perform?
+                </div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q5" value="A" id="q5a">
+                        <label for="q5a">A. Fetches the file and synchronizes it with Figma</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="B" id="q5b">
+                        <label for="q5b">B. Imports components into Figma</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="C" id="q5c">
+                        <label for="q5c">C. Synchronizes Third Party Plugins</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" value="D" id="q5d">
+                        <label for="q5d">D. Populates the Auto layout Frame with text</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question" data-question="6">
+                <div class="question-text">6. Rearrange the steps to test a prototype in Maze in sequential order.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q6" value="A" id="q6a">
+                        <label for="q6a">A. b, d, a, c</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="B" id="q6b">
+                        <label for="q6b">B. a, b, c, d</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="C" id="q6c">
+                        <label for="q6c">C. a, c, b, d</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" value="D" id="q6d">
+                        <label for="q6d">D. c, a, b, d</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question" data-question="7">
+                <div class="question-text">7. The Content Audit process does NOT include ____.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q7" value="A" id="q7a">
+                        <label for="q7a">A. Content Sample</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="B" id="q7b">
+                        <label for="q7b">B. Content Collection</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="C" id="q7c">
+                        <label for="q7c">C. Full Content Inventory</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" value="D" id="q7d">
+                        <label for="q7d">D. Partial Content Inventory</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question" data-question="8">
+                <div class="question-text">8. The ___ feature controls the amount of space between the boundary and
+                    objects in the auto layout frame.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q8" value="A" id="q8a">
+                        <label for="q8a">A. Space Between</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="B" id="q8b">
+                        <label for="q8b">B. Horizontal</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="C" id="q8c">
+                        <label for="q8c">C. Instance</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" value="D" id="q8d">
+                        <label for="q8d">D. Padding</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question" data-question="9">
+                <div class="question-text">9. Figma follows a ___-level file structure.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q9" value="A" id="q9a">
+                        <label for="q9a">A. Five</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="B" id="q9b">
+                        <label for="q9b">B. Four</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="C" id="q9c">
+                        <label for="q9c">C. Three</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" value="D" id="q9d">
+                        <label for="q9d">D. Six</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 10 -->
+            <div class="question" data-question="10">
+                <div class="question-text">10. _____ plays a vital role during the _____ phase.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q10" value="A" id="q10a">
+                        <label for="q10a">A. Wireframe, Testing</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="B" id="q10b">
+                        <label for="q10b">B. Mockup, Design</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="C" id="q10c">
+                        <label for="q10c">C. Prototype, Testing</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" value="D" id="q10d">
+                        <label for="q10d">D. Testing, Development</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- Question 11 -->
+            <div class="question" data-question="11">
+                <div class="question-text">11. _____ resizes the frame automatically.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="q11" value="A" id="q11a">
+                        <label for="q11a">A. Slicing Option</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="B" id="q11b">
+                        <label for="q11b">B. Frame Tool</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="C" id="q11c">
+                        <label for="q11c">C. Layout Feature</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q11" value="D" id="q11d">
+                        <label for="q11d">D. Slider</label>
+                    </div>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Nộp bài và xem kết quả</button>
+        </form>
+
+        <div class="result" id="result">
+            <h2>🎉 Kết quả của bạn</h2>
+            <div class="score"><span id="score">0</span>/11</div>
+            <div class="percentage">Phần trăm: <span id="percentage">0</span>%</div>
+            <div class="message" id="message"></div>
+            <button class="reset-btn" onclick="location.reload()">Làm lại</button>
+        </div>
+    </div>
+
+    <script>
+        const answers = {
+            q1: 'B',
+            q2: 'C',
+            q3: 'C',
+            q4: 'D',
+            q5: 'A',
+            q6: 'B',
+            q7: 'A',
+            q8: 'D',
+            q9: 'C',
+            q10: 'C',
+            q11: 'C'
+        };
+
+        const explanations = {
+            q1: 'Instance là bản sao của Component. Khi thay đổi Component chính, tất cả Instance đều được cập nhật.',
+            q2: 'Properties panel có 3 tab: Design (thiết kế), Prototype (tạo tương tác), và Inspect (xem code).',
+            q3: 'Inclusivity là thiết kế web có thể truy cập được cho người khuyết tật.',
+            q4: 'Google Sheets Sync plugin giúp điền dữ liệu động từ Google Sheets vào components.',
+            q5: 'Fetch & Sync lấy file và đồng bộ hóa với Figma.',
+            q6: 'Trình tự đúng: Tạo project trong Maze → Share prototype → Nhập tên và chọn Test → Copy link.',
+            q7: 'Content Audit process bao gồm: Content Collection, Full Content Inventory, và Partial Content Inventory. Không có Content Sample.',
+            q8: 'Padding điều khiển khoảng cách giữa viền frame và objects bên trong Auto Layout.',
+            q9: 'Figma có 3 cấp: Team → Project → File.',
+            q10: 'Prototype đóng vai trò quan trọng trong giai đoạn Testing.',
+            q11: 'Layout Feature (Auto Layout) tự động thay đổi kích thước frame.'
+        };
+
+        document.getElementById('quizForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            let score = 0;
+            let totalQuestions = 11;
+
+            // Disable all inputs
+            const allInputs = document.querySelectorAll('input[type="radio"]');
+            allInputs.forEach(input => input.disabled = true);
+
+            // Check answers
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionName = 'q' + i;
+                const userAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
+                const correctAnswer = answers[questionName];
+                const questionDiv = document.querySelector(`[data-question="${i}"]`);
+                const feedback = questionDiv.querySelector('.feedback');
+                const options = questionDiv.querySelectorAll('.option');
+
+                if (userAnswer) {
+                    if (userAnswer.value === correctAnswer) {
+                        score++;
+                        userAnswer.parentElement.classList.add('correct');
+                        feedback.className = 'feedback correct';
+                        feedback.textContent = '✓ Đúng rồi! ' + explanations[questionName];
+                    } else {
+                        userAnswer.parentElement.classList.add('incorrect');
+                        feedback.className = 'feedback incorrect';
+                        feedback.textContent = '✗ Sai rồi. ' + explanations[questionName];
+
+                        // Show correct answer
+                        options.forEach(option => {
+                            const input = option.querySelector('input');
+                            if (input.value === correctAnswer) {
+                                option.classList.add('correct-answer');
+                            }
+                        });
+                    }
+                } else {
+                    feedback.className = 'feedback incorrect';
+                    feedback.textContent = '⚠ Bạn chưa chọn đáp án. Đáp án đúng: ' + correctAnswer + '. ' + explanations[questionName];
+
+                    // Show correct answer
+                    options.forEach(option => {
+                        const input = option.querySelector('input');
+                        if (input.value === correctAnswer) {
+                            option.classList.add('correct-answer');
+                        }
+                    });
+                }
+            }
+
+            // Calculate percentage
+            const percentage = Math.round((score / totalQuestions) * 100);
+
+            // Display result
+            document.getElementById('score').textContent = score;
+            document.getElementById('percentage').textContent = percentage;
+
+            let message = '';
+            if (percentage === 100) {
+                message = '🌟 Xuất sắc! Bạn đã trả lời đúng tất cả!';
+            } else if (percentage >= 80) {
+                message = '👏 Rất tốt! Bạn hiểu rất rõ về Figma!';
+            } else if (percentage >= 60) {
+                message = '👍 Khá tốt! Hãy xem lại những câu sai để cải thiện nhé!';
+            } else if (percentage >= 40) {
+                message = '💪 Cần cố gắng thêm! Hãy học thêm về Figma nhé!';
+            } else {
+                message = '📚 Hãy dành thời gian học lại về Figma nhé!';
+            }
+
+            document.getElementById('message').textContent = message;
+            document.getElementById('result').style.display = 'block';
+
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Disable submit button
+            document.querySelector('.submit-btn').disabled = true;
+            document.querySelector('.submit-btn').textContent = 'Đã nộp bài';
+        });
+    </script>
+</body>
+
+</html>
