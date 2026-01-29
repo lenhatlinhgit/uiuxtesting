@@ -128,28 +128,29 @@ Content Sample không phải là bước trong quy trình này.
 **Figma follows a ___-level file structure.**
 
 - A. Five
-- B. Four
-- C. Three ✅
+- B. Four ✅
+- C. Three
 - D. Six
 
-**Giải thích**: Figma có cấu trúc 3 cấp:
-1. **Team** (Nhóm)
-2. **Project** (Dự án)
-3. **File** (Tệp tin)
+**Giải thích**: Figma có cấu trúc 4 cấp:
+1. **Team** (Nhóm) - Nhóm làm việc (công ty/lớp học/project lớn), là cấp cao nhất
+2. **Project** (Dự án) - Nằm trong Team, dùng để gom các file cùng chủ đề (VD: Website, Mobile App...)
+3. **File** (Tệp tin) - File thiết kế cụ thể, bên trong file mới có frame, component, layer...
+4. **Page** (Trang) - Mỗi file có nhiều page (Design, Prototype, Components...)
 
-Sơ đồ: Team → Project → File
+Sơ đồ: Team → Project → File → Page
 
 ---
 
 ### Câu 10
 **_____ plays a vital role during the _____ phase.**
 
-- A. Wireframe, Testing
-- B. Mockup, Design
-- C. Prototype, Testing ✅
-- D. Testing, Development
+- A. Wireframe
+- B. Mockup
+- C. Testing ✅
+- D. Prototype
 
-**Giải thích**: Prototype (nguyên mẫu) đóng vai trò quan trọng trong giai đoạn Testing (kiểm thử). Prototype giúp test các tương tác, user flow, và trải nghiệm người dùng trước khi phát triển sản phẩm thực tế.
+**Giải thích**: Testing (Kiểm thử) đóng vai trò quan trọng trong quá trình phát triển sản phẩm. Trong giai đoạn Testing, người ta sử dụng prototype để kiểm tra tương tác, user flow và trải nghiệm người dùng trước khi phát triển sản phẩm thực tế.
 
 ---
 
@@ -177,8 +178,8 @@ Sơ đồ: Team → Project → File
 | 6   | B      | Trình tự test prototype: a, b, c, d |
 | 7   | A      | Content Audit KHÔNG bao gồm Content Sample |
 | 8   | D      | Padding - khoảng cách viền đến object |
-| 9   | C      | Figma có 3 cấp: Team → Project → File |
-| 10  | C      | Prototype quan trọng trong Testing phase |
+| 9   | B      | Figma có 4 cấp: Team → Project → File → Page |
+| 10  | C      | Testing phase đóng vai trò quan trọng |
 | 11  | C      | Layout Feature (Auto Layout) - resize tự động |
 
 ---
